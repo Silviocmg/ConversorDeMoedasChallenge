@@ -1,5 +1,3 @@
-// Modelo para mapear a resposta da API usando Gson
-// Você pode criar classes para representar a estrutura da resposta JSON
 
 import java.util.Map;
 
@@ -14,8 +12,7 @@ public class ExchangeRateResponse {
     private String base_code;
     private Map<String, Double> conversion_rates;
 
-    // Getters e setters
-
+    
     public String getResult() {
         return result;
     }
@@ -88,7 +85,6 @@ public class ExchangeRateResponse {
         this.conversion_rates = conversion_rates;
     }
 
-    // Método de conveniência para converter diretamente
     public Double getConversionRate(String currencyCode) {
         if (conversion_rates == null || !conversion_rates.containsKey(currencyCode)) {
             return null;
