@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class ConversorApp {
 
     public static void main(String[] args) {
-        // Inicializar o cliente de API
+        
         ExchangeRateClient apiClient = new ExchangeRateClient();
         Scanner scanner = new Scanner(System.in);
 
@@ -17,44 +17,43 @@ public class ConversorApp {
         System.out.println("Bem-vindo ao conversor de moedas!");
 
         try {
-            // Solicitar moeda de origem
+            
             System.out.print("Digite a moeda de origem (ex: USD, BRL, EUR): ");
             String moedaOrigem = scanner.nextLine().toUpperCase();
 
-            // Obter as taxas disponíveis para a moeda de origem
+            
             ExchangeRateResponse taxas = apiClient.obterTaxasDeCambio(moedaOrigem);
 
-            // Verificar se a requisição foi bem-sucedida
+            
             if (!taxas.getResult().equals("success")) {
                 System.out.println("Erro ao obter taxas de câmbio. Verifique o código da moeda e tente novamente.");
                 return;
             }
 
-            // Solicitar moeda de destino
             System.out.print("Digite a moeda de destino (ex: USD, BRL, EUR): ");
             String moedaDestino = scanner.nextLine().toUpperCase();
 
-            // Verificar se a moeda de destino está disponível
+          
             Double taxaDestino = taxas.getConversionRate(moedaDestino);
             if (taxaDestino == null) {
                 System.out.println("Moeda de destino inválida ou não disponível para conversão.");
                 return;
             }
 
-            // Solicitar valor a ser convertido
+           
             System.out.print("Digite o valor a ser convertido: ");
             BigDecimal valor = new BigDecimal(scanner.nextLine());
 
-            // Realizar a conversão
+           
             BigDecimal valorConvertido = valor.multiply(BigDecimal.valueOf(taxaDestino))
                     .setScale(2, RoundingMode.HALF_UP);
 
-            // Exibir resultado da conversão
+            
             System.out.println("\nResultado da conversão:");
             System.out.printf("%s %.2f = %s %.2f\n",
                     moedaOrigem, valor, moedaDestino, valorConvertido);
 
-            // Exibir informações adicionais
+            
             System.out.println("\nTaxa de câmbio utilizada: 1 " + moedaOrigem + " = " +
                     taxaDestino + " " + moedaDestino);
             System.out.println("Data da última atualização: " + taxas.getTime_last_update_utc());
